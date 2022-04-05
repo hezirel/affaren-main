@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import LowStockProductsComponent from './LowStockProductsComponent';
-import ip from '../../ip'
+
 const XLSX = require('xlsx');
 
 const LowStock = () => {
@@ -8,7 +8,7 @@ const LowStock = () => {
 
     const getLowStockProducts = async () => {
         try {
-            const lowStockProducts = await fetch(`http://${ip}:5000/low-stock/products`);
+            const lowStockProducts = await fetch(`http://localhost:5000/low-stock/products`);
             const lowStockProductsJson = await lowStockProducts.json();
             //sort by stock
             lowStockProductsJson.sort((a,b) => {

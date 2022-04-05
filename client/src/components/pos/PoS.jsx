@@ -1,7 +1,6 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import CartComponent from './CartComponent';
 import TaxeComponent from './TaxeComponent';
-import ip from '../../ip'
 import printer from '../../printer'
 
 
@@ -41,10 +40,10 @@ const PoS = () => {
     //get last sale transaction id, if sale_paid is true, then create a new sale transaction
     const getLastSale = async () => {
         try {
-            const lastSale = await fetch(`http://${ip}:5000/last-sale`);
+            const lastSale = await fetch(`http://localhost:5000/last-sale`);
             const lastSaleData = await lastSale.json(); 
             if (lastSaleData.sale_paid === true) {
-                const newSale = await fetch(`http://${ip}:5000/sales`, {
+                const newSale = await fetch(`http://localhost:5000/sales`, {
                     method: 'POST'
                 });
                 const newSaleData = await newSale.json();
@@ -65,7 +64,7 @@ const PoS = () => {
     const addProduct = async () => {
         if (barcode !== '') {
             try {
-                const product = await fetch(`http://${ip}:5000/products/${barcode}`);
+                const product = await fetch(`http://localhost:5000/products/${barcode}`);
                 const productData = await product.json();
                 //add product to products list but set product_quantity to 1
                 const newProduct = {
@@ -236,7 +235,7 @@ const PoS = () => {
     // get the products of that sale ID and set it to the products list
     const getEditSaleProducts = async () => {
         try {
-            const response = await fetch(`http://${ip}:5000/sales/${saleId}`);
+            const response = await fetch(`http://localhost:5000/sales/${saleId}`);
             const data = await response.json();
             for(let i = 0; i < data.length; i++) {
                 const newProduct = {
@@ -258,7 +257,7 @@ const PoS = () => {
     //delete null rows when editing
     const deleteNull = async () => {
         try {
-            const response = await fetch(`http://${ip}:5000/delete/sales/${saleId}/null`, {
+            const response = await fetch(`http://localhost:5000/delete/sales/${saleId}/null`, {
                 method: 'DELETE'
             });
             const data = await response.json();
@@ -343,7 +342,7 @@ const PoS = () => {
             //if editing(true) delete ewerything from the products_in_transactions before adding new products
             if (editing) {
                 try {
-                    const response = await fetch(`http://${ip}:5000/reset/sales/${saleId}`, {
+                    const response = await fetch(`http://localhost:5000/reset/sales/${saleId}`, {
                         method: 'PUT'
                     });
                     const data = await response.json();
@@ -354,7 +353,7 @@ const PoS = () => {
 
             if (leftToPay !== 0 && leftToPay > 0) {
                 try {
-                    const splittedPaiment = await fetch(`http://${ip}:5000/close/sales/${saleId}/split`, {
+                    const splittedPaiment = await fetch(`http://localhost:5000/close/sales/${saleId}/split`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json',
@@ -378,7 +377,7 @@ const PoS = () => {
                     setAccounting()
                     addProductsInTransaction()
                     updateStock();
-                    const close = await fetch(`http://${ip}:5000/close/sales/${saleId}`, {
+                    const close = await fetch(`http://localhost:5000/close/sales/${saleId}`, {
                         method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
@@ -421,7 +420,7 @@ const PoS = () => {
                 let id = products[i].product_id;
                 let quantity = products[i].product_quantity;
                 if (id !== '') {
-                    const closeStock = await fetch(`http://${ip}:5000/close/products/${id}/stock`, {
+                    const closeStock = await fetch(`http://localhost:5000/close/products/${id}/stock`, {
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -458,7 +457,7 @@ const PoS = () => {
                 sale_day: String(time[`day`]),
                 sale_time: time[`time`]
             }
-            const accounting = await fetch(`http://${ip}:5000/accounting/sales/${saleId}`, {
+            const accounting = await fetch(`http://localhost:5000/accounting/sales/${saleId}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -486,7 +485,7 @@ const PoS = () => {
                     sale_month: String(time[`month`]),
                     sale_day: String(time[`day`])
                 }
-                const sendProducts = await fetch(`http://${ip}:5000/sales/${saleId}/product`, {
+                const sendProducts = await fetch(`http://localhost:5000/sales/${saleId}/product`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

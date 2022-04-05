@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import MonthlyBestSellersComponent from './MonthlyBestSellersComponent';
 import DailyBestSellersComponent from './DailyBestSellersComponent';
-import ip from '../../ip'
 
 
 let date = new Date();
@@ -26,7 +25,7 @@ const BestSellers = () => {
     
     const getProducts = async () => {
         try {
-            const products = await fetch(`http://${ip}:5000/best-sellers`);
+            const products = await fetch(`http://localhost:5000/best-sellers`);
             const productsJson = await products.json();
             setProducts(productsJson);
         } catch (err) {

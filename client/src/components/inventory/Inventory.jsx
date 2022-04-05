@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import DisplayProductComponent from './DisplayProductComponent';
 import CreateProduct from './CreateProductComponent';
-import ip from '../../ip'
 
 
 const Inventory = () => {
@@ -16,7 +15,7 @@ const Inventory = () => {
         const barcodeString = barcodeInput.value;
         if(barcodeString.slice(-2) === '/n'){
             try {
-                const findProduct = await fetch(`http://${ip}:5000/products/${barcodeString.slice(0, -2)}`);
+                const findProduct = await fetch(`http://localhost:5000/products/${barcodeString.slice(0, -2)}`);
                 const product = await findProduct.json();
                 console.log(product);
                 setProduct(product);
@@ -48,7 +47,7 @@ const Inventory = () => {
                 alert : product.product_alert,
                 taxe_id : product.taxe_id
             }
-            const updateProduct = await fetch(`http://${ip}:5000/products/${barcode.slice(0, -2)}`, {
+            const updateProduct = await fetch(`http://localhost:5000/products/${barcode.slice(0, -2)}`, {
                 method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(body)
@@ -83,7 +82,7 @@ const Inventory = () => {
                 taxe_id: taxe_id,
                 barcode: product_barcode
             }
-            const addProduct = await fetch(`http://${ip}:5000/products`, {
+            const addProduct = await fetch(`http://localhost:5000/products`, {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify(body)

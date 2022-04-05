@@ -2,7 +2,6 @@ import React, {useState, useEffect} from 'react';
 import MonthComponent from './MonthComponent';
 import SelectedDateComponent from './SelectedDateComponent';
 import SalesComponent from './SalesComponent';
-import ip from '../../ip'
 
 let date = new Date();
 let dd = String(date.getDate()).padStart(2, '0');
@@ -29,7 +28,7 @@ const Admin = ()  => {
     // get All sales from database
     const getSales = async () => {
         try {
-            const response = await fetch(`http://${ip}:5000/sales`);
+            const response = await fetch(`http://localhost:5000/sales`);
             const sales = await response.json();
             setSales(sales);
             setFilteredSales(sales);
